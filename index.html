@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Grocery Shop</title>
+
+<style>
+body { font-family: Arial; padding:20px; background:#f5f5f5; }
+
+.product {
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  background:white;
+  margin:10px 0;
+  padding:10px;
+  border-radius:10px;
+}
+
+.cart-item {
+  background:white;
+  padding:10px;
+  margin:5px 0;
+  border-radius:8px;
+}
+
+button { margin:0 5px; }
+</style>
+
+</head>
+<body>
+
+<h2>🛒 Akshaya Mart</h2>
+
+<div id="products"></div>
+
+<h3>🧾 Cart</h3>
+<div id="cart"></div>
+
+<h3>📦 Checkout</h3>
+
+<input id="name" placeholder="Name"><br><br>
+<input id="phone" placeholder="Phone"><br><br>
+<textarea id="address" placeholder="Address"></textarea><br><br>
+
+<button onclick="submitOrder()">Submit Order</button>
+
+<script>
+
+const products = [
+  { id: 1, name: "Pasupu - 100grams", price: 40 },
+  { id: 2, name: "Sugar - 1kg", price: 50 },
+  { id: 3, name: "Milk full cream jersey - 500ml", price: 36 },
+  { id: 4, name: "Tata salt - 1kg", price: 35 },
+  { id: 5, name: "Drink - 2liter", price: 90 },
+  { id: 6, name: "Golden horse tea powder - 250g", price: 140 },
+  { id: 7, name: "Ashirvad atta - 1 kg", price: 75 },
+  { id: 8, name: "lalitha idli rava - 1 kg", price: 50 },
+  { id: 9, name: "Refined sunflower oil - 1 liter", price: 190 },
+];
+let cart = [];
+
+
+// ---------------- PRODUCTS ----------------
+function renderProducts() {
+  let html = "";
+
+  products.forEach(p => {
+    html += `
+      <div class="product">
+        <div>
+          <b>${p.name}</b><br>
+          ₹${p.price}
+        </div>
+        <button onclick="add(${p.id})">+</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("products").innerHTML = html;
+}
+
+
+// ---------------- CART LOGIC ----------------
+function add(id) {
+  let item = cart.find(i => i.id === id);
+
+  if (item) {
+    item.qty++;
+  } else {
+    let p = products.find(x => x.id === id);
+    cart.push({...p, qty:1});
+  }
+
+  renderCart();
+}
+
+function increase(id) {
+  let item = cart.find(i => i.id === id);
+  if (item) item.qty++;
+  renderCart();
+}
+
+function decrease(id) {
+  let item = cart.find(i => i.id === id);
+
+  if (!item) return;
+
+  if (item.qty > 1) {
+    item.qty--;
+  } else {
+    cart = cart.filter(x => x.id !== id);
+  }
+
+  renderCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(x => x.id !== id);
+  renderCart();
+}
+
+
+// ---------------- CART UI ----------------
+function renderCart() {
+  let html = "";
+
+  if (cart.length === 0) {
+    document.getElementById("cart").innerHTML = "Cart empty";
+    return;
+  }
+
+  cart.forEach(i => {
+    html += `
+      <div class="cart-item">
+        <b>${i.name}</b><br>
+        ₹${i.price} × ${i.qty} = ₹${i.price * i.qty}
+        <br><br>
+
+        <button onclick="decrease(${i.id})">➖</button>
+        <button onclick="increase(${i.id})">➕</button>
+        <button onclick="removeItem(${i.id})">🗑️ Delete</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cart").innerHTML = html;
+}
+
+
+// ---------------- ORDER ----------------
+function submitOrder() {
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
+
+  if (!name || !phone || !address || cart.length === 0) {
+    alert("Fill all details");
+    return;
+  }
+
+  let msg = "🛒 NEW ORDER%0A";
+  msg += "Name: " + name + "%0A";
+  msg += "Phone: " + phone + "%0A";
+  msg += "Address: " + address + "%0A%0AItems:%0A";
+
+  let total = 0;
+
+  cart.forEach(i => {
+    msg += i.name + " x " + i.qty + "%0A";
+    total += i.price * i.qty;
+  });
+
+  msg += "%0ATotal: ₹" + total;
+
+  window.location.href = "https://wa.me/9989441578?text=" + msg;
+
+  cart = [];
+  renderCart();
+}
+
+renderProducts();
+
+</script>
+
+</body>
+</html>
