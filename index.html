@@ -3,35 +3,194 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Grocery Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Akshaya Mart</title>
 
 <style>
-body { font-family: Arial; padding:20px; background:#f5f5f5; }
+body {
+  font-family: Arial;
+  padding: 15px;
+  background: #f5f5f5;
+  margin: 0;
+}
 
+/* LOGO */
+.logo-container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 100px;
+  max-width: 30%;
+  height: auto;
+}
+
+/* TITLE */
+.shop-title {
+  text-align: center;
+  color: white;
+  background: linear-gradient(90deg, green, darkgreen);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* OFFER BANNER */
+.offer-banner {
+  background: linear-gradient(90deg, #e6f0ff, #cce0ff);
+  color: #0047ab;
+  border: 2px solid #66a3ff;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 71, 171, 0.15);
+}
+
+/* PRODUCT GRID */
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+/* PRODUCT CARD */
 .product {
-  display:flex;
-  align-items:center;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  background:white;
-  margin:10px 0;
-  padding:10px;
-  border-radius:10px;
 }
 
+/* PRICE */
+.mrp {
+  color: red;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+
+.ak-price {
+  color: green;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* BUTTONS */
+button {
+  margin-top: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: green;
+  color: white;
+  font-weight: bold;
+  width: 100%;
+}
+
+button:hover {
+  background: darkgreen;
+}
+
+/* SMALLER SUBMIT BUTTON */
+.submit-btn {
+  width: 220px;
+  padding: 10px 16px;
+  margin-top: 10px;
+}
+
+/* CART */
 .cart-item {
-  background:white;
-  padding:10px;
-  margin:5px 0;
-  border-radius:8px;
+  background: white;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
 }
 
-button { margin:0 5px; }
+/* CHECKOUT */
+.checkout-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input, textarea {
+  width: 350px;
+  max-width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 80px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .shop-title {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  #products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product {
+    padding: 10px;
+  }
+
+  .ak-price {
+    font-size: 14px;
+  }
+
+  .mrp {
+    font-size: 12px;
+  }
+
+  button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    width: 180px;
+  }
+
+  .offer-banner {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
 </style>
 
 </head>
 <body>
 
-<h2>🛒 Akshaya Mart</h2>
+<div class="logo-container">
+    <img src="akshaya_logo.png" alt="Akshaya Mart Logo" class="logo">
+</div>
+
+<h2 class="shop-title">🛒 Akshaya Mart</h2>
+
+<div class="offer-banner">
+  For every purchase of ₹2250, get 1kg sugar for just ₹9.<br>
+  Free delivery available only in Chamavaram.
+</div>
 
 <div id="products"></div>
 
@@ -40,29 +199,45 @@ button { margin:0 5px; }
 
 <h3>📦 Checkout</h3>
 
-<input id="name" placeholder="Name"><br><br>
-<input id="phone" placeholder="Phone"><br><br>
-<textarea id="address" placeholder="Address"></textarea><br><br>
-
-<button onclick="submitOrder()">Submit Order</button>
+<div class="checkout-box">
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <textarea id="address" placeholder="Address"></textarea>
+    <button class="submit-btn" onclick="submitOrder()">Submit Order</button>
+</div>
 
 <script>
 
 const products = [
-  { id: 1, name: "Pasupu - 100grams", price: 40 },
-  { id: 2, name: "Sugar - 1kg", price: 50 },
-  { id: 3, name: "Milk full cream jersey - 500ml", price: 36 },
-  { id: 4, name: "Tata salt - 1kg", price: 35 },
-  { id: 5, name: "Drink - 2liter", price: 90 },
-  { id: 6, name: "Golden horse tea powder - 250g", price: 140 },
-  { id: 7, name: "Ashirvad atta - 1 kg", price: 75 },
-  { id: 8, name: "lalitha idli rava - 1 kg", price: 50 },
-  { id: 9, name: "Refined sunflower oil - 1 liter", price: 190 },
+  { id: 1, name: "Pasupu (100g)", mrp: 40, price: 35 },
+  { id: 2, name: "Sugar (2kg)", mrp: 100, price: 90 },
+  { id: 3, name: "Pampers (30 Pants)", mrp: 374, price: 300 },
+  { id: 4, name: "Whisper XXL", mrp: 150, price: 125 },
+  { id: 5, name: "Ariel Liquid Top Load (1L)", mrp: 179, price: 160 },
+  { id: 6, name: "Dabur Glucose (1kg) + Dabur Red Paste Free (₹135)", mrp: 280, price: 200 },
+  { id: 7, name: "Aashirvaad Atta (1kg)", mrp: 74, price: 69 },
+  { id: 8, name: "ORS (1 Pc)", mrp: 32, price: 25 },
+  { id: 9, name: "Itex Herbal Sticks (1 Box - 12 Packets)", mrp: 180, price: 120 },
+  { id: 10, name: "Good Night Flash (1 Box)", mrp: 105, price: 100 },
+  { id: 11, name: "Dairy Milk", mrp: 98, price: 94 },
+  { id: 12, name: "Soft Drink (2L)", mrp: 98, price: 90 },
+  { id: 13, name: "3 Roses Top Star Tea (250g)", mrp: 225, price: 215 },
+  { id: 14, name: "Women's Horlicks (400g)", mrp: 329, price: 315 },
+  { id: 15, name: "Tide Surf (500g)", mrp: 73, price: 68 },
+  { id: 16, name: "Tide Surf (1kg)", mrp: 140, price: 135 },
+  { id: 17, name: "Basmati Rice - Wagah (1kg)", mrp: 129, price: 110 },
+  { id: 19, name: "Mysore Sandal Gold Soap (1 Pc)", mrp: 82, price: 75 },
+  { id: 20, name: "3 Mango Chilli Powder (500g)", mrp: 600, price: 425 },
+  { id: 21, name: "Dairy Day Vanilla Family Pack Ice Cream (1+1 Offer)", mrp: 199, price: 199 },
+  { id: 22, name: "Horlicks Jar (200g)", mrp: 105, price: 100 },
+  { id: 23, name: "Dabur Glucose D (100g) + Dabur Paste Free (₹10)", mrp: 39, price: 37 },
+  { id: 24, name: "Bru Coffee Jar (40g)", mrp: 140, price: 136 },
+  { id: 25, name: "My Fair Cream", mrp: 210, price: 170 },
+  { id: 26, name: "Colgate Sensitive Brush (1 Pc)", mrp: 62, price: 50 },
+  { id: 27, name: "Sona Masoori Rice Bag (24kg)", mrp: 1200, price: 1100 },
 ];
 let cart = [];
 
-
-// ---------------- PRODUCTS ----------------
 function renderProducts() {
   let html = "";
 
@@ -70,10 +245,11 @@ function renderProducts() {
     html += `
       <div class="product">
         <div>
-          <b>${p.name}</b><br>
-          ₹${p.price}
+          <b>${p.name}</b><br><br>
+          <span class="mrp">MRP: ₹${p.mrp}</span><br>
+          <span class="ak-price">Akshaya Mart Price: ₹${p.price}</span>
         </div>
-        <button onclick="add(${p.id})">+</button>
+        <button onclick="add(${p.id})">Add +</button>
       </div>
     `;
   });
@@ -81,18 +257,13 @@ function renderProducts() {
   document.getElementById("products").innerHTML = html;
 }
 
-
-// ---------------- CART LOGIC ----------------
 function add(id) {
   let item = cart.find(i => i.id === id);
-
-  if (item) {
-    item.qty++;
-  } else {
+  if (item) item.qty++;
+  else {
     let p = products.find(x => x.id === id);
     cart.push({...p, qty:1});
   }
-
   renderCart();
 }
 
@@ -104,14 +275,10 @@ function increase(id) {
 
 function decrease(id) {
   let item = cart.find(i => i.id === id);
-
   if (!item) return;
 
-  if (item.qty > 1) {
-    item.qty--;
-  } else {
-    cart = cart.filter(x => x.id !== id);
-  }
+  if (item.qty > 1) item.qty--;
+  else cart = cart.filter(x => x.id !== id);
 
   renderCart();
 }
@@ -121,8 +288,6 @@ function removeItem(id) {
   renderCart();
 }
 
-
-// ---------------- CART UI ----------------
 function renderCart() {
   let html = "";
 
@@ -135,9 +300,7 @@ function renderCart() {
     html += `
       <div class="cart-item">
         <b>${i.name}</b><br>
-        ₹${i.price} × ${i.qty} = ₹${i.price * i.qty}
-        <br><br>
-
+        ₹${i.price} × ${i.qty} = ₹${i.price * i.qty}<br><br>
         <button onclick="decrease(${i.id})">➖</button>
         <button onclick="increase(${i.id})">➕</button>
         <button onclick="removeItem(${i.id})">🗑️ Delete</button>
@@ -148,8 +311,6 @@ function renderCart() {
   document.getElementById("cart").innerHTML = html;
 }
 
-
-// ---------------- ORDER ----------------
 function submitOrder() {
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
@@ -166,18 +327,14 @@ function submitOrder() {
   msg += "Address: " + address + "%0A%0AItems:%0A";
 
   let total = 0;
-
   cart.forEach(i => {
-    msg += i.name + " x " + i.qty + "%0A";
+    msg += i.name + " x " + i.qty + " = ₹" + (i.price * i.qty) + "%0A";
     total += i.price * i.qty;
   });
 
   msg += "%0ATotal: ₹" + total;
 
   window.location.href = "https://wa.me/9989441578?text=" + msg;
-
-  cart = [];
-  renderCart();
 }
 
 renderProducts();
